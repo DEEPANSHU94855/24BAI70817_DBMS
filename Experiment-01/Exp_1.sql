@@ -1,20 +1,16 @@
--- Create Database
 CREATE DATABASE University_DB;
 USE University_DB;
 
--- Create Student Table
 CREATE TABLE Student(
     student_id INT PRIMARY KEY,
     student_name VARCHAR(50)
 );
 
--- Create Course Table
 CREATE TABLE Course(
     course_id INT PRIMARY KEY,
     course_title VARCHAR(100)
 );
 
--- Create Enrollment Table
 CREATE TABLE Enrollment(
     enrollment_id INT PRIMARY KEY,
     student_id INT,
@@ -24,39 +20,30 @@ CREATE TABLE Enrollment(
     FOREIGN KEY(course_id) REFERENCES Course(course_id)
 );
 
--- Insert Students
 INSERT INTO Student VALUES
 (11,'Aarush Mehta'),
 (12,'Kiara Sharma'),
 (13,'Vivaan Kapoor');
 
--- Insert Courses
 INSERT INTO Course VALUES
 (301,'Cloud Infrastructure'),
 (302,'Blockchain Fundamentals'),
 (303,'Cyber Threat Analysis');
 
--- Start Transaction
 START TRANSACTION;
 
--- Valid Enrollment
 INSERT INTO Enrollment
 VALUES(1,11,302,'A');
 
--- Savepoint
 SAVEPOINT SP1;
 
--- Invalid Enrollment
 INSERT INTO Enrollment
 VALUES(2,99,301,'B');
 
--- Rollback Invalid Record
 ROLLBACK TO SP1;
 
--- Save Valid Record
 COMMIT;
 
--- Display Result
 SELECT
 s.student_name,
 c.course_title,
